@@ -228,6 +228,14 @@ from fastapi.responses import FileResponse
 async def serve_index():
     return FileResponse("index.html")
 
+@app.get("/analysis-form")
+async def serve_form():
+    return FileResponse("index.html")
+
+@app.get("/analysis-result")
+async def serve_result():
+    return FileResponse("index.html")
+
 @app.get("/style.css")
 async def serve_css():
     return FileResponse("style.css")

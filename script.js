@@ -42,9 +42,13 @@ document.addEventListener('DOMContentLoaded', () => {
     generateFormFields();
     loadFormData();
 
-    // Hash check for return from Stripe
-    if (window.location.hash === '#input-screen' || window.location.hash === '#input') {
+    // Path check for new flow
+    const path = window.location.pathname;
+    if (path === '/analysis-form') {
         switchScreen('input');
+        window.scrollTo(0, 0);
+    } else if (path === '/analysis-result') {
+        startAnalysisProcess();
     }
 
     // === Event Listeners ===
@@ -119,12 +123,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const hasData = data.some(item => item.answer);
         if (!hasData) {
-            if (!confirm('入力データが空ですが、このまま解析を実行しますか？')) {
+            if (!confirm('入力データが空ですが、このまま決済に進みますか？')) {
                 return;
             }
         }
 
+        // 入力完了後、Stripe決済画面へリダイレクト
+        window.location.href = 'https://buy.stripe.com/bJe8wIfTm42CbIf2Vn9k401';
+    });
+
+    async function startAnalysisProcess() {
         switchScreen('loading');
+        window.scrollTo(0, 0);
+
+        const data = getFormData(); // getFormData internally reads the DOM value which was populated by loadFormData
+        const hasData = data.some(item => item.answer);
+
+        if (!hasData) {
+            alert('入力データが見つかりません。再度フォームから入力してください。');
+            window.location.href = '/analysis-form';
+            return;
+        }
 
         try {
             const report = await callBackendAPI(data);
@@ -137,9 +156,9 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             console.error(error);
             alert(`解析中にエラーが発生しました。\n${error.message}`);
-            switchScreen('input'); // Back to input on error
+            window.location.href = '/analysis-form'; // Back to input on error
         }
-    });
+    }
 
     printBtn.addEventListener('click', () => {
         window.print();
@@ -207,6 +226,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function getFormData() {
         const data = [];
+        const savedDataJson = localStorage.getItem('yayoi_form_data');
+        if (savedDataJson) {
+            try {
+                const savedData = JSON.parse(savedDataJson);
+                return savedData;
+            } catch (e) {
+                console.error("Failed to parse saved data", e);
+            }
+        }
+
         const inputs = document.querySelectorAll('.question-input');
         inputs.forEach((input) => {
             const index = input.dataset.index;
