@@ -60,7 +60,6 @@ async def analyze_life_history(request: AnalyzeRequest):
 ・未入力
 ・極端に短い
 ・10問中3問以上が未回答
-・自分史がほとんど未入力
 
 の場合は
 
