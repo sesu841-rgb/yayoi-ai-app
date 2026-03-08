@@ -1,0 +1,142 @@
+:root {
+    --text-color: #333333;
+    --bg-color: #ffffff;
+    --btn-color: #1a1a1a;
+    --btn-hover: #444444;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Meiryo", sans-serif;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    line-height: 2.2;
+    letter-spacing: 0.08em;
+    -webkit-font-smoothing: antialiased;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.spacer {
+    padding: 7rem 0;
+    text-align: center;
+}
+
+.main-title {
+    font-size: 1.8rem;
+    font-weight: 500;
+    margin-bottom: 3.5rem;
+    line-height: 1.6;
+    color: #111;
+}
+
+@media (max-width: 600px) {
+    .main-title {
+        font-size: 1.5rem;
+    }
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    line-height: 2.6;
+    color: #444;
+}
+
+.text-section p {
+    font-size: 1.1rem;
+    line-height: 2.6;
+    color: #333;
+}
+
+.text-section h2 {
+    font-size: 1.3rem;
+    font-weight: 500;
+    margin-bottom: 2.5rem;
+    letter-spacing: 0.1em;
+}
+
+.feature-list {
+    list-style: none;
+    display: inline-block;
+    text-align: left;
+    margin-bottom: 2.5rem;
+}
+
+.feature-list li {
+    font-size: 1.1rem;
+    margin-bottom: 1.2rem;
+    position: relative;
+    padding-left: 1.5rem;
+}
+
+.feature-list li::before {
+    content: "・";
+    position: absolute;
+    left: 0;
+    color: #111;
+}
+
+.price-section {
+    padding-top: 5rem;
+    padding-bottom: 2rem;
+}
+
+.product-name {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+}
+
+.price {
+    font-size: 2.5rem;
+    font-weight: 500;
+    color: #111;
+    letter-spacing: 0.05em;
+}
+
+.price span {
+    font-size: 1.2rem;
+    font-weight: 400;
+    margin-left: 0.3rem;
+}
+
+.cta-section {
+    text-align: center;
+    margin-top: 1rem;
+    margin-bottom: 5rem;
+}
+
+.cta-btn {
+    display: inline-block;
+    background-color: var(--btn-color);
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 500;
+    padding: 1.2rem 4rem;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.cta-btn:hover {
+    background-color: var(--btn-hover);
+    transform: translateY(-2px);
+}
+
+.separator {
+    width: 1px;
+    height: 80px;
+    background-color: #eaeaea;
+    margin: 0 auto;
+}

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relaxing Timer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Relaxing Timer</h1>
+        <div class="timer-display">
+            <svg class="progress-ring" width="300" height="300">
+                <circle class="progress-ring__circle" stroke="white" stroke-width="8" fill="transparent" r="140" cx="150" cy="150"/>
+            </svg>
+            <div class="time-text" id="time-display">25:00</div>
+        </div>
+        
+        <div class="controls">
+            <button id="start-btn" class="btn">Start</button>
+            <button id="reset-btn" class="btn secondary">Reset</button>
+        </div>
+
+        <div class="settings">
+            <label>Time (minutes): <input type="number" id="minutes-input" value="25" min="1" max="60"></label>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
