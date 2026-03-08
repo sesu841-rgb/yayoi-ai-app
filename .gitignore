@@ -4,3 +4,10 @@ __pycache__/
 .venv/
 venv/
 env/
+cloudflared.exe
+tunnel.log
+out.txt
+out2.txt
+test_out.txt
+reports/
+*.bat
