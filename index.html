@@ -360,45 +360,55 @@
             </header>
 
             <main>
-                <div class="instruction-box keep-all" style="text-align: left; padding: 2rem;">
-                    <p class="keep-all" style="margin-bottom: 1.2rem;">これからお伺いするのは、<br>これまでのあなた自身の歴史に関するいくつかの記憶です。</p>
-                    <p class="keep-all" style="margin-bottom: 1.2rem;">ですが、これは診断テストでも、<br>性格の良し悪しを測る評価でもありません。</p>
-                    <p class="keep-all" style="margin-bottom: 1.2rem;">ある出来事に対して、<br>あなたがどう反応し、何を選び取ってきたのか。</p>
-                    <p class="keep-all" style="margin-bottom: 1.2rem;">その「事実」を、静かにつなぎ合わせていく作業です。</p>
-                    <p class="keep-all" style="margin-bottom: 1.2rem;">ここに正解はありませんし、不正解もありません。</p>
-                    <p class="keep-all" style="margin-bottom: 1.2rem;">だからこそ、<br>誰かに見せるためのきれいな文章でまとめる必要はありません。</p>
-                    <p class="keep-all" style="margin-bottom: 1.2rem;">「こんなことを書いたらどう思われるだろうか」</p>
-                    <p class="keep-all" style="margin-bottom: 1.2rem;">その自己検閲は、いったん横に置いてください。</p>
-                    <p class="keep-all" style="margin-bottom: 1.2rem;">
-                        矛盾を含んだままでも構いません。<br>むしろ、言葉にしづらい小さな違和感のほうが、<br>あなたの構造をひも解く手がかりになります。</p>
-                    <p class="keep-all" style="margin-bottom: 1.2rem;">無理に劇的な出来事を探す必要もありません。</p>
-                    <p class="keep-all" style="margin-bottom: 1.2rem;">思い出せる範囲で、<br>ご自身の記憶に対して正直であることだけを優先してください。</p>
-                    <p class="keep-all" style="margin-bottom: 1.2rem;">ここに残した言葉は、<br>ただのアンケートとして処理されることはありません。</p>
-                    <p class="keep-all" style="margin-bottom: 1.2rem;">あなたが無意識に繰り返しているパターンを<br>読み解くための材料として、丁寧に扱われます。
+                <div class="instruction-box keep-all"
+                    style="text-align: left; padding: 2rem; background: #fff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 3rem;">
+                    <p class="keep-all" style="margin-bottom: 1.5rem; line-height: 1.8; color: #333;">これからいくつかの質問をします。
                     </p>
+                    <p class="keep-all" style="margin-bottom: 1.5rem; line-height: 1.8; color: #333;">これは性格診断ではありません。
+                    </p>
+                    <p class="keep-all" style="margin-bottom: 1.5rem; line-height: 1.8; color: #333;">あなたの人生で繰り返されている
+                    </p>
+                    <ul class="keep-all"
+                        style="margin-bottom: 1.5rem; line-height: 1.8; list-style-type: none; padding-left: 1rem; color: #444;">
+                        <li>・人間関係</li>
+                        <li>・仕事</li>
+                        <li>・感情の疲れ</li>
+                        <li>・行動パターン</li>
+                    </ul>
+                    <p class="keep-all" style="margin-bottom: 1.5rem; line-height: 1.8; color: #333;">
+                        その「人生の構造」を<br>AIが分析するための入力です。</p>
+                    <p class="keep-all" style="margin-bottom: 1.5rem; line-height: 1.8; color: #333;">正解はありません。</p>
+                    <p class="keep-all" style="margin-bottom: 1.5rem; line-height: 1.8; color: #333;">
+                        思い出せる範囲で構いませんので<br>できるだけ正直に書いてください。</p>
                     <p class="keep-all"
-                        style="text-align: center; margin-top: 2.5rem; font-weight: 700; font-size: 1.1rem; color: var(--primary-color);">
-                        では、始めましょう。</p>
+                        style="margin-bottom: 0; line-height: 1.8; font-weight: bold; color: var(--primary-color);">
+                        入力後、約30秒で<br>あなたの「人生構造分析レポート」が生成されます。</p>
                 </div>
 
                 <div class="keep-all" id="form-container">
                     <!-- JavaScriptでステップごとのフォームを生成 -->
                 </div>
 
-                <div class="step-actions keep-all" style="flex-direction: column; gap: 1.5rem;">
-                    <!-- addAgeBtn removed -->
-                    <button id="analyze-btn" class="primary-btn keep-all" style="width: 100%;">▶ 人生パターンを読む</button>
+                <div class="step-actions keep-all"
+                    style="flex-direction: column; gap: 1.5rem; margin-top: 2.5rem; text-align: center;">
+                    <p class="keep-all"
+                        style="font-weight: bold; color: #333; margin-bottom: 0.5rem; line-height: 1.6;">
+                        入力完了後、約30秒で<br>あなたの人生構造分析レポートが表示されます。</p>
+                    <button id="analyze-btn" class="primary-btn keep-all"
+                        style="width: 100%; max-width: 400px; margin: 0 auto; display: block; padding: 1rem 0; font-size: 1.2rem;">人生構造レポートを生成する</button>
                 </div>
 
-                <div class="privacy-policy-section keep-all">
-                    <h3 class="keep-all">プライバシーについて</h3>
-                    <ul class="keep-all">
+                <div class="privacy-policy-section keep-all"
+                    style="margin-top: 3.5rem; padding: 2rem; background: #fafafa; border-radius: 8px; text-align: center;">
+                    <ul class="keep-all"
+                        style="list-style: none; padding: 0; font-size: 0.95rem; color: #555; line-height: 2;">
                         <li class="keep-all">入力内容は外部に公開されません</li>
-                        <li class="keep-all">第三者へ提供することはありません</li>
-                        <li class="keep-all">解析以外の目的では使用しません</li>
+                        <li class="keep-all">第三者へ提供されることもありません</li>
+                        <li class="keep-all">分析以外の目的で使用されることはありません</li>
                         <li class="keep-all">レポート生成後、データ削除も可能です</li>
                     </ul>
-                    <p class="privacy-relax-text keep-all">安心してご入力ください。</p>
+                    <p class="privacy-relax-text keep-all" style="margin-top: 1.5rem; color: #777; font-weight: bold;">
+                        安心してご入力ください。</p>
                 </div>
             </main>
         </section>
