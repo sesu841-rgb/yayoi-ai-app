@@ -20,6 +20,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const clearDataBtn = document.getElementById('clear-data-btn');
     const reportContent = document.getElementById('report-content');
 
+    const emailModal = document.getElementById('email-modal');
+    const modalCloseBtn = document.getElementById('modal-close-btn');
+    const modalCancelBtn = document.getElementById('modal-cancel-btn');
+    const sendEmailBtn = document.getElementById('send-email-btn');
+    const emailInput = document.getElementById('email-input');
+
     // === Constants & State ===
     const API_BASE_URL = (window.location.protocol === 'file:' || window.location.port !== '8000' && window.location.hostname === 'localhost')
         ? 'http://127.0.0.1:8000'
@@ -69,6 +75,60 @@ document.addEventListener('DOMContentLoaded', () => {
         switchScreen('input');
         window.scrollTo(0, 0);
     });
+
+    [modalCloseBtn, modalCancelBtn].forEach(btn => {
+        if (btn) {
+            btn.addEventListener('click', () => {
+                emailModal.style.display = 'none';
+            });
+        }
+    });
+
+    if (sendEmailBtn) {
+        sendEmailBtn.addEventListener('click', async () => {
+            const email = emailInput.value.trim();
+            if (!email) {
+                alert('メールアドレスを入力してください。');
+                return;
+            }
+            if (!lastGeneratedReport) {
+                alert('レポートが生成されていません。');
+                return;
+            }
+
+            try {
+                const originalText = sendEmailBtn.textContent;
+                sendEmailBtn.textContent = '送信中...';
+                sendEmailBtn.disabled = true;
+
+                const response = await fetch(`${API_BASE_URL || ''}/send-report`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: email,
+                        report_markdown: lastGeneratedReport
+                    })
+                });
+
+                if (!response.ok) {
+                    let errMessage = '送信エラーが発生しました。';
+                    try {
+                        const errObj = await response.json();
+                        if (errObj.detail) errMessage = errObj.detail;
+                    } catch (e) { }
+                    throw new Error(errMessage);
+                }
+
+                alert(`${email} 宛にレポートを送信しました！\n数分経っても届かない場合は迷惑メールフォルダをご確認ください。\n（※無料システムのため、うまく送信できない環境もございます）`);
+                emailModal.style.display = 'none';
+            } catch (err) {
+                alert(`メール送信エラー: ${err.message}\nお使いのメールサーバーで制限がかかっているか、内部設定の問題です。大変お手数ですが画面のPDF保存をご利用ください。`);
+            } finally {
+                sendEmailBtn.textContent = '送信する';
+                sendEmailBtn.disabled = false;
+            }
+        });
+    }
 
     saveLocalBtn.addEventListener('click', () => {
         saveFormData();
@@ -485,7 +545,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 <h4 style="margin-top: 2rem; margin-bottom: 1rem; color: #333;">このレポートを保存しますか？</h4>
                 <div class="save-buttons" style="max-width: 400px; margin: 0 auto;">
-                    <button id="save-pdf-btn" class="secondary-btn" style="width: 100%; margin-top: 10px; padding: 1rem; font-size: 1.1rem; font-weight: bold; color: #333; border: 2px solid #ccc; background: #fafafa; cursor: pointer;">PDFで保存 / 印刷する</button>
+                    <button id="open-email-modal-btn" class="primary-btn" style="width: 100%; margin-bottom: 10px; font-weight: bold;">✉️ メールで受け取る</button>
+                    <button id="save-pdf-btn" class="secondary-btn" style="width: 100%; padding: 1rem; font-size: 1.1rem; font-weight: bold; color: #333; border: 2px solid #ccc; background: #fafafa; cursor: pointer;">PDFで保存 / 印刷する</button>
                 </div>
                 <p style="text-align: center; font-size: 0.85rem; color: #d9534f; margin-top: 10px; font-weight: bold; line-height: 1.6;">
                     ※PDF保存や印刷でエラーが出る環境の場合は、<br>大変お手数ですが画面の<span style="border-bottom: 1px solid #d9534f;">スクリーンショット等</span>での記録をお願いいたします。
@@ -520,6 +581,14 @@ document.addEventListener('DOMContentLoaded', () => {
             } catch (e) {
                 console.error("Print error:", e);
                 alert("お使いの環境ではPDF保存（印刷）が正常に機能しないようです。\nお手数ですが、画面のスクリーンショットを撮って記録をお願いいたします。");
+            }
+        });
+
+        document.getElementById('open-email-modal-btn').addEventListener('click', () => {
+            if (emailModal) {
+                emailModal.style.display = 'flex';
+            } else {
+                document.getElementById('email-modal').style.display = 'flex';
             }
         });
     }
