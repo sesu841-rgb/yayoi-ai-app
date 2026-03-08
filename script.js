@@ -185,6 +185,12 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        if (!hasFormData) {
+            alert('ステップ1（10の質問）のデータが見つかりません。\n\n「自分史」だけを入力しても、AIが「10問中3問以上が未回答」というルールで弾く設計になっています。\nお手数ですが、テスト時も最初の10の質問を入力してください。');
+            window.location.href = '/analysis-form';
+            return;
+        }
+
         try {
             const report = await callBackendAPI(formData, historyData);
             lastGeneratedReport = report; // Store for email
