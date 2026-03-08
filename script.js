@@ -23,6 +23,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const emailInput = document.getElementById('email-input');
 
     // === Constants & State ===
+    const API_BASE_URL = (window.location.protocol === 'file:' || window.location.port !== '8000' && window.location.hostname === 'localhost')
+        ? 'http://127.0.0.1:8000'
+        : '';
+
     const questionsList = [
         "1. 今、あなたが一番疲れていることは何ですか？",
         "2. 人間関係で、よく繰り返してしまう出来事はありますか？",
@@ -247,9 +251,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return data;
     }
 
-    const API_BASE_URL = (window.location.protocol === 'file:' || window.location.port !== '8000' && window.location.hostname === 'localhost')
-        ? 'http://127.0.0.1:8000'
-        : '';
 
     async function callBackendAPI(historyData) {
         const formattedHistory = historyData
