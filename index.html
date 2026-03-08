@@ -426,6 +426,60 @@
             </main>
         </section>
 
+        <!-- History Form Screen -->
+        <section id="history-screen" class="screen">
+            <header class="sticky-header">
+                <h2 class="keep-all">自分史入力</h2>
+                <div class="header-actions keep-all">
+                    <button id="save-history-btn" class="secondary-btn keep-all">一時保存</button>
+                </div>
+            </header>
+
+            <main>
+                <div class="instruction-box keep-all"
+                    style="text-align: left; padding: 2rem; background: #fff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 3rem;">
+                    <p class="keep-all"
+                        style="margin-bottom: 1.5rem; line-height: 1.8; color: #333; font-weight: bold;">
+                        決済が完了しました。最後のステップ「自分史」を入力してください。
+                    </p>
+                    <p class="keep-all" style="margin-bottom: 1.5rem; line-height: 1.8; color: #333;">
+                        あなたの人生を5年ごとに振り返ります。<br>
+                        印象に残っている出来事、そのときの感情、あなたの行動、そして周囲の主要人物を記載してください。
+                    </p>
+                    <p class="keep-all" style="margin-bottom: 0; line-height: 1.8; color: #333;">
+                        入力が完了したら、一番下のボタンを押してAI分析を開始してください。
+                    </p>
+                </div>
+
+                <div class="keep-all" id="history-container">
+                    <!-- JavaScriptでステップごとのフォームを生成 -->
+                </div>
+
+                <div class="step-actions keep-all" style="text-align: center; margin-top: 2rem; margin-bottom: 2rem;">
+                    <button id="add-age-btn" class="secondary-btn keep-all" style="padding: 0.8rem 2rem;">＋
+                        年代を追加する</button>
+                </div>
+
+                <div class="step-actions keep-all"
+                    style="flex-direction: column; gap: 1.5rem; margin-top: 2.5rem; text-align: center;">
+                    <button id="start-analysis-btn" class="primary-btn keep-all"
+                        style="width: 100%; max-width: 400px; margin: 0 auto; display: block; padding: 1rem 0; font-size: 1.2rem;">AI分析を開始する</button>
+                </div>
+
+                <div class="privacy-policy-section keep-all"
+                    style="margin-top: 3.5rem; padding: 2rem; background: #fafafa; border-radius: 8px; text-align: center;">
+                    <ul class="keep-all"
+                        style="list-style: none; padding: 0; font-size: 0.95rem; color: #555; line-height: 2;">
+                        <li class="keep-all">入力内容は外部に公開されません</li>
+                        <li class="keep-all">第三者へ提供されることもありません</li>
+                        <li class="keep-all">分析以外の目的で使用されることはありません</li>
+                    </ul>
+                    <p class="privacy-relax-text keep-all" style="margin-top: 1.5rem; color: #777; font-weight: bold;">
+                        安心してご入力ください。</p>
+                </div>
+            </main>
+        </section>
+
         <!-- Loading Screen -->
         <section id="loading-screen" class="screen">
             <main class="center-content">
@@ -474,7 +528,7 @@
 
 
 
-    <script src="script.js?v=4"></script>
+    <script src="script.js?v=5"></script>
 </body>
 
 </html>

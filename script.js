@@ -4,13 +4,17 @@ document.addEventListener('DOMContentLoaded', () => {
         top: document.getElementById('top-screen'),
         input: document.getElementById('input-screen'),
         loading: document.getElementById('loading-screen'),
-        report: document.getElementById('report-screen')
+        report: document.getElementById('report-screen'),
+        history: document.getElementById('history-screen')
     };
 
     const startBtn = document.getElementById('start-btn');
     const formContainer = document.getElementById('form-container');
+    const historyContainer = document.getElementById('history-container');
     const saveLocalBtn = document.getElementById('save-local-btn');
     const analyzeBtn = document.getElementById('analyze-btn');
+    const saveHistoryBtn = document.getElementById('save-history-btn');
+    const startAnalysisBtn = document.getElementById('start-analysis-btn');
     const addAgeBtn = document.getElementById('add-age-btn');
     const printBtn = document.getElementById('print-btn');
     const clearDataBtn = document.getElementById('clear-data-btn');
@@ -40,10 +44,19 @@ document.addEventListener('DOMContentLoaded', () => {
         "10. 今の人生で、特に変えたいと感じていることは何ですか？"
     ];
 
+    let totalSteps = 9; // Default 1 to 9 (up to 45)
+
+    const emotionsList = [
+        "喜び", "安心", "誇り", "ワクワク", "愛情",
+        "怒り", "悲しみ", "不安", "孤独", "無力感",
+        "プレッシャー", "嫉妬", "焦り", "虚無感", "罪悪感"
+    ];
+
     let lastGeneratedReport = ""; // To hold the report locally for email sending
 
     // === Initialization ===
     generateFormFields();
+    generateHistoryFields(totalSteps);
     loadFormData();
 
     // Path check for new flow
@@ -52,7 +65,9 @@ document.addEventListener('DOMContentLoaded', () => {
         switchScreen('input');
         window.scrollTo(0, 0);
     } else if (path === '/analysis-result') {
-        startAnalysisProcess();
+        switchScreen('history');
+        window.scrollTo(0, 0);
+        loadHistoryData();
     }
 
     // === Event Listeners ===
@@ -117,8 +132,26 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     if (addAgeBtn) {
-        // Disabled for new format
-        addAgeBtn.style.display = 'none';
+        addAgeBtn.addEventListener('click', () => {
+            totalSteps++;
+            const newBlock = createStepBlockElement(totalSteps);
+            historyContainer.appendChild(newBlock);
+            saveHistoryData();
+        });
+    }
+
+    if (saveHistoryBtn) {
+        saveHistoryBtn.addEventListener('click', () => {
+            saveHistoryData();
+            alert('自分史データを一時保存しました。');
+        });
+    }
+
+    if (startAnalysisBtn) {
+        startAnalysisBtn.addEventListener('click', () => {
+            saveHistoryData(); // Auto-save
+            startAnalysisProcess();
+        });
     }
 
     analyzeBtn.addEventListener('click', async () => {
@@ -140,17 +173,20 @@ document.addEventListener('DOMContentLoaded', () => {
         switchScreen('loading');
         window.scrollTo(0, 0);
 
-        const data = getFormData(); // getFormData internally reads the DOM value which was populated by loadFormData
-        const hasData = data.some(item => item.answer);
+        const formData = getFormData();
+        const historyData = getHistoryData();
 
-        if (!hasData) {
+        const hasFormData = formData.some(item => item.answer);
+        const hasHistoryData = historyData.some(d => d.events || d.emotions.length > 0 || d.emotionsOther || d.actions || d.people);
+
+        if (!hasFormData && !hasHistoryData) {
             alert('入力データが見つかりません。再度フォームから入力してください。');
             window.location.href = '/analysis-form';
             return;
         }
 
         try {
-            const report = await callBackendAPI(data);
+            const report = await callBackendAPI(formData, historyData);
             lastGeneratedReport = report; // Store for email
 
             // Render the report using the new layout and parsed sections
@@ -203,7 +239,144 @@ document.addEventListener('DOMContentLoaded', () => {
         formContainer.appendChild(stepBlock);
     }
 
+    // === History Form Functions ===
+    function generateHistoryFields(stepsCount) {
+        if (!historyContainer) return;
+        historyContainer.innerHTML = '';
+        for (let step = 1; step <= stepsCount; step++) {
+            historyContainer.appendChild(createStepBlockElement(step));
+        }
+    }
 
+    function createStepBlockElement(step) {
+        let startAge = 0;
+        let endAge = 5;
+        let label = "基本情報（年齢確認）等";
+
+        if (step === 1) {
+            startAge = 0;
+            endAge = 5;
+            label = `0～5歳`;
+        } else {
+            startAge = (step - 1) * 5 + 1;
+            endAge = step * 5;
+            label = `${startAge}～${endAge}歳`;
+        }
+
+        const stepBlock = document.createElement('div');
+        stepBlock.className = 'step-block';
+        stepBlock.dataset.step = step;
+
+        const emotionCheckboxes = emotionsList.map((emo) => `
+            <label class="checkbox-label">
+                <input type="checkbox" name="emotion_${step}" value="${emo}">
+                <span>${emo}</span>
+            </label>
+        `).join('');
+
+        stepBlock.innerHTML = `
+            <div class="age-block" data-range="${label}">
+                <div class="age-label">${label}</div>
+                
+                <div class="form-group">
+                    <label>印象的な出来事</label>
+                    <span class="hint">この時期に起きた一番大きな出来事や環境の変化を事実ベースで書いてください。</span>
+                    <textarea class="event-input" placeholder="例：小学校入学、引越し、親の離婚など"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>当時の感情</label>
+                    <span class="hint">その出来事に対して、どう感じていましたか？（複数選択可）</span>
+                    <div class="checkbox-group">
+                        ${emotionCheckboxes}
+                    </div>
+                    <input type="text" class="emotion-other-input" placeholder="その他の感情・自由入力">
+                </div>
+
+                <div class="form-group">
+                    <label>自分が取った行動・選択</label>
+                    <span class="hint">その出来事や感情に対して、自分はどう動きましたか？</span>
+                    <textarea class="action-input" placeholder="例：親の期待に応えるために勉強ばかりした、反発したなど"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>周囲の主要人物</label>
+                    <span class="hint">この時期、あなたに最も影響を与えた人物は誰ですか？</span>
+                    <input type="text" class="people-input" placeholder="例：母親、厳しい部活の先生、親友など">
+                </div>
+            </div>
+        `;
+        return stepBlock;
+    }
+
+    function saveHistoryData() {
+        const data = getHistoryData();
+        localStorage.setItem('yayoi_history_data', JSON.stringify(data));
+    }
+
+    function loadHistoryData() {
+        const savedDataJson = localStorage.getItem('yayoi_history_data');
+        if (savedDataJson) {
+            try {
+                const savedData = JSON.parse(savedDataJson);
+                if (savedData.length > totalSteps) {
+                    totalSteps = savedData.length;
+                    generateHistoryFields(totalSteps);
+                }
+                savedData.forEach((item, index) => {
+                    const step = index + 1;
+                    const block = document.querySelector(`.step-block[data-step="${step}"]`);
+                    if (!block) return;
+
+                    const eventInput = block.querySelector('.event-input');
+                    const actionInput = block.querySelector('.action-input');
+                    const peopleInput = block.querySelector('.people-input');
+                    const emotionOtherInput = block.querySelector('.emotion-other-input');
+
+                    if (eventInput) eventInput.value = item.events || '';
+                    if (actionInput) actionInput.value = item.actions || '';
+                    if (peopleInput) peopleInput.value = item.people || '';
+                    if (emotionOtherInput) emotionOtherInput.value = item.emotionsOther || '';
+
+                    const checkboxes = block.querySelectorAll(`input[name="emotion_${step}"]`);
+                    checkboxes.forEach(cb => {
+                        cb.checked = (item.emotions && item.emotions.includes(cb.value));
+                    });
+                });
+            } catch (e) {
+                console.error("Failed to parse saved history data", e);
+            }
+        }
+    }
+
+    function getHistoryData() {
+        const data = [];
+        for (let step = 1; step <= totalSteps; step++) {
+            const block = document.querySelector(`.step-block[data-step="${step}"]`);
+            if (!block) continue;
+
+            const ageBlock = block.querySelector('.age-block');
+            if (!ageBlock) continue;
+
+            const rangeLabel = ageBlock.dataset.range;
+            const eventVal = block.querySelector('.event-input').value.trim();
+            const actionVal = block.querySelector('.action-input').value.trim();
+            const peopleVal = block.querySelector('.people-input').value.trim();
+            const emotionOtherVal = block.querySelector('.emotion-other-input').value.trim();
+
+            const emotionsSelected = Array.from(block.querySelectorAll(`input[name="emotion_${step}"]:checked`)).map(cb => cb.value);
+
+            data.push({
+                range: rangeLabel,
+                events: eventVal,
+                emotions: emotionsSelected,
+                emotionsOther: emotionOtherVal,
+                actions: actionVal,
+                people: peopleVal
+            });
+        }
+        return data;
+    }
 
     function saveFormData() {
         const data = getFormData();
@@ -230,6 +403,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function getFormData() {
         const data = [];
+        const inputs = document.querySelectorAll('.question-input');
+
+        // If inputs exist on the screen, use their current values (this handles the first screen case)
+        if (inputs.length > 0) {
+            inputs.forEach((input) => {
+                const index = input.dataset.index;
+                data.push({
+                    question: questionsList[index],
+                    answer: input.value.trim()
+                });
+            });
+            return data;
+        }
+
         const savedDataJson = localStorage.getItem('yayoi_form_data');
         if (savedDataJson) {
             try {
@@ -240,21 +427,26 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        const inputs = document.querySelectorAll('.question-input');
-        inputs.forEach((input) => {
-            const index = input.dataset.index;
-            data.push({
-                question: questionsList[index],
-                answer: input.value.trim()
-            });
-        });
         return data;
     }
 
 
-    async function callBackendAPI(historyData) {
-        const formattedHistory = historyData
+    async function callBackendAPI(formData, historyData) {
+        let formattedHistory = "### 【ステップ1：10の質問】\n";
+        formattedHistory += formData
             .map(d => `【${d.question}】\n${d.answer || '（未回答）'}`)
+            .join('\n\n');
+
+        formattedHistory += "\n\n### 【ステップ2：自分史（5年ごと）】\n";
+        formattedHistory += historyData
+            .filter(d => d.events || d.emotions.length > 0 || d.emotionsOther || d.actions || d.people)
+            .map(d => {
+                let emoText = d.emotions.join('、');
+                if (d.emotionsOther) {
+                    emoText += emoText ? `、${d.emotionsOther}` : d.emotionsOther;
+                }
+                return `【${d.range}】\n・印象的な出来事: ${d.events}\n・当時の感情: ${emoText}\n・取った行動: ${d.actions}\n・周囲の主要人物: ${d.people}`;
+            })
             .join('\n\n');
 
         const response = await fetch(`${API_BASE_URL}/analyze`, {
