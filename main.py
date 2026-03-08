@@ -258,6 +258,13 @@ async def serve_form():
 async def serve_result():
     return FileResponse("index.html")
 
+@app.get("/debug-key")
+async def debug_key():
+    api_key = os.getenv("OPENAI_API_KEY", "")
+    if len(api_key) > 4:
+        return {"key_ends_with": api_key[-4:]}
+    return {"key_ends_with": "too short or empty"}
+
 @app.get("/style.css")
 async def serve_css():
     return FileResponse("style.css")
