@@ -473,6 +473,33 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function renderReport(markdownText) {
+        if (markdownText.includes("分析に必要な情報が不足しています")) {
+            reportContent.innerHTML = `
+                <div class="report-header-nav no-print">
+                    <button class="nav-link-btn" id="nav-top">◀ トップに戻る</button>
+                </div>
+                
+                <div class="report-intro" style="text-align: center; margin-top: 50px;">
+                    <h3 style="color: #d9534f; margin-bottom: 20px;">分析情報が不足しています</h3>
+                    <p style="margin-bottom: 30px; font-weight: bold; line-height: 1.6; font-size: 1.1rem; color: #333;">
+                        ${markdownText.replace(/\n/g, '<br>')}
+                    </p>
+                    <button id="nav-history-btn" class="primary-btn" style="max-width: 300px; width: 100%;">自分史入力画面に戻る</button>
+                </div>
+            `;
+
+            document.getElementById('nav-top').addEventListener('click', () => {
+                switchScreen('top');
+                window.scrollTo(0, 0);
+            });
+
+            document.getElementById('nav-history-btn').addEventListener('click', () => {
+                switchScreen('history');
+                window.scrollTo(0, 0);
+            });
+            return;
+        }
+
         // Very simple logic to format markdown into the custom blocks
         let html = markdownText
             .replace(/### (.*?)\n/g, '<h4 class="report-h4">$1</h4>')
