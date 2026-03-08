@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>わたしの人生パターンレポート</title>
-    <link rel="stylesheet" href="style.css?v=8">
+    <link rel="stylesheet" href="style.css?v=9">
     <link rel="stylesheet" href="lp.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap"
         rel="stylesheet">
@@ -391,17 +391,18 @@
 
                     <!-- 保存誘導枠 -->
                     <div class="keep-all"
-                        style="background-color: #fffaf0; border: 1px solid #f5d0a9; border-radius: 8px; padding: 1.5rem; text-align: center; margin-bottom: 1rem; box-shadow: 0 2px 5px rgba(0,0,0,0.02);">
+                        style="background-color: #fff1f0; border: 2px solid #ff4d4f; border-radius: 8px; padding: 2rem; text-align: center; margin-bottom: 2rem; box-shadow: 0 4px 15px rgba(255, 77, 79, 0.15);">
                         <p class="keep-all"
-                            style="font-size: 1rem; color: #d35400; font-weight: bold; margin-bottom: 0.8rem;">
-                            【重要】入力データ保護のお願い
+                            style="font-size: 1.2rem; color: #ff4d4f; font-weight: bold; margin-bottom: 1rem;">
+                            【非常に重要】決済前に必ず保存してください！
                         </p>
                         <p class="keep-all"
-                            style="font-size: 0.95rem; color: #555; line-height: 1.8; margin-bottom: 0;">
-                            決済画面に移動する前に、<br>画面右上の<span
-                                style="font-weight:bold; color:#d35400;">「入力データを一時保存」</span>を押すことをおすすめします。<br>
-                            <span style="font-size: 0.85rem; color: #888;">（万が一、通信が切れてしまっても入力を復元できます）</span>
+                            style="font-size: 1rem; color: #333; line-height: 1.8; margin-bottom: 1.5rem; font-weight: bold;">
+                            入力したデータが消えてしまうのを防ぐため、<br>この下の「一時保存する」ボタンを絶対に押してください！
                         </p>
+                        <button id="save-local-btn-highlight" class="secondary-btn keep-all"
+                            style="width: 100%; max-width: 300px; padding: 1rem; font-size: 1.1rem; border: 2px solid #ff4d4f; color: #ff4d4f; font-weight: bold; background: #fff; cursor: pointer;">💾
+                            入力データを一時保存する</button>
                     </div>
 
                     <p class="keep-all"
@@ -507,31 +508,9 @@
                 </div>
             </main>
         </section>
-        <!-- Email Modal -->
-        <div id="email-modal" class="modal-overlay keep-all" style="display: none;">
-            <div class="modal-content keep-all">
-                <button id="modal-close-btn" class="modal-close-btn keep-all">&times;</button>
-                <h3 class="keep-all" style="border: none; padding: 0; margin-bottom: 1rem; text-align: center;">
-                    レポートをメールで送信</h3>
-                <p class="keep-all" style="text-align: center; font-size: 0.95rem; margin-bottom: 2rem; color: #555;">
-                    ご入力いただいたメールアドレス宛に、PDF形式（またはHTML形式）のレポート送信リンク付きメールをお送りします。
-                </p>
-                <div class="keep-all" style="margin-bottom: 1.5rem;">
-                    <input type="email" id="email-input" placeholder="例: you@example.com" class="text-input"
-                        style="width: 100%; border-radius: 4px; border: 1px solid var(--border-color); padding: 0.8rem; font-size: 1rem; font-family: inherit;">
-                </div>
-                <div class="modal-actions keep-all" style="display: flex; gap: 1rem; flex-direction: column;">
-                    <button id="send-email-btn" class="primary-btn keep-all"
-                        style="width: 100%; max-width: none;">送信する</button>
-                    <button id="modal-cancel-btn" class="secondary-btn keep-all" style="width: 100%;">キャンセル</button>
-                </div>
-            </div>
-        </div>
     </div>
 
-
-
-    <script src="script.js?v=8"></script>
+    <script src="script.js?v=9"></script>
 </body>
 
 </html>

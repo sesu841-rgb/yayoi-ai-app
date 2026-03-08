@@ -20,12 +20,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const clearDataBtn = document.getElementById('clear-data-btn');
     const reportContent = document.getElementById('report-content');
 
-    const emailModal = document.getElementById('email-modal');
-    const modalCloseBtn = document.getElementById('modal-close-btn');
-    const modalCancelBtn = document.getElementById('modal-cancel-btn');
-    const sendEmailBtn = document.getElementById('send-email-btn');
-    const emailInput = document.getElementById('email-input');
-
     // === Constants & State ===
     const API_BASE_URL = (window.location.protocol === 'file:' || window.location.port !== '8000' && window.location.hostname === 'localhost')
         ? 'http://127.0.0.1:8000'
@@ -76,60 +70,18 @@ document.addEventListener('DOMContentLoaded', () => {
         window.scrollTo(0, 0);
     });
 
-    [modalCloseBtn, modalCancelBtn].forEach(btn => {
-        if (btn) {
-            btn.addEventListener('click', () => {
-                emailModal.style.display = 'none';
-            });
-        }
-    });
-
-    if (sendEmailBtn) {
-        sendEmailBtn.addEventListener('click', async () => {
-            const email = emailInput.value.trim();
-            if (!email) {
-                alert('メールアドレスを入力してください。');
-                return;
-            }
-            if (!lastGeneratedReport) {
-                alert('レポートが生成されていません。');
-                return;
-            }
-
-            try {
-                // Change button text and disable it to show loading state
-                const originalText = sendEmailBtn.textContent;
-                sendEmailBtn.textContent = '送信中...';
-                sendEmailBtn.disabled = true;
-
-                const response = await fetch(`${API_BASE_URL || ''}/send-report`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        email: email,
-                        report_markdown: lastGeneratedReport
-                    })
-                });
-
-                if (!response.ok) {
-                    throw new Error('送信エラーが発生しました。');
-                }
-
-                alert(`${email} 宛にレポート送信リクエストを完了しました！\n（※SMTP設定がない場合はコンソール上のシミュレーションになります）`);
-                emailModal.style.display = 'none';
-            } catch (err) {
-                alert(err.message);
-            } finally {
-                sendEmailBtn.textContent = '送信する';
-                sendEmailBtn.disabled = false;
-            }
-        });
-    }
-
     saveLocalBtn.addEventListener('click', () => {
         saveFormData();
         alert('入力データをブラウザに保存しました。');
     });
+
+    const saveLocalBtnHighlight = document.getElementById('save-local-btn-highlight');
+    if (saveLocalBtnHighlight) {
+        saveLocalBtnHighlight.addEventListener('click', () => {
+            saveFormData();
+            alert('入力データをブラウザに保存しました。\n大変お手数ですが、このまま下へ進み「人生構造レポートを生成する」ボタンにお進みください。');
+        });
+    }
 
     if (addAgeBtn) {
         addAgeBtn.addEventListener('click', () => {
@@ -532,12 +484,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 <p>構造が見えただけでは、現実は変わりません。<br>書き換えには、理解ではなく実行が必要です。</p>
                 
                 <h4 style="margin-top: 2rem; margin-bottom: 1rem; color: #333;">このレポートを保存しますか？</h4>
-                <div class="save-buttons">
-                    <button id="open-email-modal-btn" class="primary-btn" style="width: 100%;">✉️ メールで受け取る</button>
-                    <button id="save-pdf-btn" class="secondary-btn" style="width: 100%; margin-top: 10px;">PDFとして保存する</button>
+                <div class="save-buttons" style="max-width: 400px; margin: 0 auto;">
+                    <button id="save-pdf-btn" class="secondary-btn" style="width: 100%; margin-top: 10px; padding: 1rem; font-size: 1.1rem; font-weight: bold; color: #333; border: 2px solid #ccc; background: #fafafa; cursor: pointer;">PDFで保存 / 印刷する</button>
                 </div>
-                <p style="text-align: center; font-size: 0.85rem; color: #666; margin-top: 10px;">
-                    ※印刷画面が開きます。<br>送信先（プリンター）を「PDFに保存」に変更してください。
+                <p style="text-align: center; font-size: 0.85rem; color: #d9534f; margin-top: 10px; font-weight: bold; line-height: 1.6;">
+                    ※PDF保存や印刷でエラーが出る環境の場合は、<br>大変お手数ですが画面の<span style="border-bottom: 1px solid #d9534f;">スクリーンショット等</span>での記録をお願いいたします。
                 </p>
             </div>
 
@@ -564,14 +515,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         document.getElementById('save-pdf-btn').addEventListener('click', () => {
-            window.print();
-        });
-
-        document.getElementById('open-email-modal-btn').addEventListener('click', () => {
-            if (emailModal) {
-                emailModal.style.display = 'flex';
-            } else {
-                document.getElementById('email-modal').style.display = 'flex';
+            try {
+                window.print();
+            } catch (e) {
+                console.error("Print error:", e);
+                alert("お使いの環境ではPDF保存（印刷）が正常に機能しないようです。\nお手数ですが、画面のスクリーンショットを撮って記録をお願いいたします。");
             }
         });
     }
