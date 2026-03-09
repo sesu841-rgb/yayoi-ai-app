@@ -477,278 +477,505 @@ input[type="text"]:focus {
 }
 
 /* ==================================================
-   NEW REPORT UI STYLES
+   PREMIUM REPORT UI STYLES
 ================================================== */
 
-.report-header-nav {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 2rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid var(--border-color);
+.report-box {
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+    max-width: 900px;
+    margin: 0 auto;
 }
 
-.nav-link-btn {
-    background: none;
-    border: none;
+/* 共通セクションスタイル */
+.report-section {
+    background: #fff;
+    border-radius: 12px;
+    padding: 3rem 2.5rem;
+    margin-bottom: 2.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* タイトルセクション */
+.report-title-section {
+    text-align: center;
+    padding: 5rem 2rem;
+    background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+    border-bottom: 4px solid var(--primary-color);
+}
+
+.report-title-section h1 {
+    font-size: 2.4rem;
+    color: #333;
+    margin-bottom: 1rem;
+    letter-spacing: 0.15em;
+    font-weight: 700;
+}
+
+.report-subtitle {
+    font-size: 1.25rem;
+    color: #666;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* セクションタイトル */
+.report-section-header {
+    font-size: 1.1rem;
+    font-weight: 700;
     color: var(--primary-color);
-    font-weight: 500;
-    cursor: pointer;
-    font-size: 0.9rem;
-    padding: 0.5rem;
-    text-decoration: underline;
-    text-underline-offset: 4px;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
 }
 
-.nav-link-btn:hover {
-    color: #000;
-    background: rgba(0, 0, 0, 0.05);
+.report-section-header::before {
+    content: '';
+    display: block;
+    width: 20px;
+    height: 3px;
+    background: var(--primary-color);
+}
+
+.report-main-h {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    color: #222;
+    line-height: 1.4;
+}
+
+/* 構造図（図式化） */
+.structure-diagram {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    margin: 3rem 0;
+    padding: 2rem;
+    background: #f9fbfb;
+    border-radius: 12px;
+}
+
+.structure-node {
+    background: #fff;
+    border: 1px solid var(--primary-color);
+    padding: 1.2rem 2.5rem;
+    border-radius: 50px;
+    font-weight: 700;
+    color: #333;
+    box-shadow: 0 4px 10px rgba(90, 188, 181, 0.1);
+    position: relative;
+    max-width: 100%;
+}
+
+.structure-arrow {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+/* 転換点カード */
+.turning-point-container {
+    display: grid;
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.turning-point-card {
+    border-left: 5px solid var(--accent-color);
+    padding: 1.5rem;
+    background: #fdfdff;
     border-radius: 4px;
 }
 
-.report-section-title {
-    font-size: 1.4rem;
+.tp-event {
     font-weight: 700;
-    margin: 2.5rem 0 1.5rem;
-    padding-left: 1rem;
-    border-left: 4px solid var(--primary-color);
-    letter-spacing: 0.05em;
-    color: #111;
-}
-
-.report-h4 {
+    color: #333;
     font-size: 1.1rem;
-    font-weight: 700;
-    margin: 1.5rem 0 1rem;
-    color: #333;
-}
-
-.report-text {
-    font-size: 1.05rem;
-    line-height: 1.9;
-    color: #444;
-    margin-bottom: 1.5rem;
-}
-
-.report-cta-block {
-    background: #ffffff;
-    color: #333;
-    padding: 4.5rem 2.5rem;
-    /* さらに大きく、存在感を出す */
-    border-radius: 12px;
-    border: 4px solid var(--primary-color);
-    /* 枠を太くして強く目立たせる */
-    text-align: center;
-    margin: 4rem auto;
-    max-width: 700px;
-    /* 横幅を広げる */
-    box-shadow: 0 10px 40px rgba(90, 188, 181, 0.25);
-    /* 影も強める */
-    position: relative;
-    overflow: hidden;
-}
-
-.report-cta-block::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 8px;
-    /* さらに太く */
-    background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
-}
-
-.report-cta-block h3 {
-    color: var(--primary-color);
-    border-left: none;
-    padding-left: 0;
-    font-size: 1.6rem;
-    /* 少し大きく */
-    margin-bottom: 1.2rem;
-    letter-spacing: 0.1em;
-    font-weight: 700;
-}
-
-.report-cta-block p {
-    font-size: 1.15rem;
-    /* もう少し大きく */
     margin-bottom: 0.5rem;
-    /* ☆ボタンまでの間隔を大幅にカット（1.5rem → 0.5rem） */
-    color: #333;
-    /* 文字色を少し濃く */
-    line-height: 1.8;
-    font-weight: 700;
-    /* 文字を太くして目立たせる */
 }
 
-.cta-buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    max-width: 380px;
-    margin: 1rem auto 0;
-    /* ☆ボタン上の余白もカット */
+.tp-emotion {
+    color: var(--accent-color);
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
 }
 
-.cta-btn {
+.tp-meaning {
+    color: #555;
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
+/* 無意識ルール/未来/ヒント */
+.highlight-box {
+    background: #fff9f0;
+    border: 1px solid #ffe8cc;
+    padding: 2rem;
+    border-radius: 8px;
+    margin-top: 1.5rem;
+}
+
+.danger-box {
+    background: #fff5f5;
+    border: 1px solid #ffe3e3;
+    padding: 2rem;
+    border-radius: 8px;
+    margin-top: 1.5rem;
+}
+
+/* タイプ判別 */
+.type-badge {
+    display: inline-block;
     background: var(--primary-color);
     color: #fff;
-    text-decoration: none;
-    padding: 1.2rem;
-    border-radius: 8px;
-    font-size: 1.15rem;
+    padding: 0.8rem 2.5rem;
+    border-radius: 4px;
+    font-size: 1.8rem;
     font-weight: 700;
-    transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
-    box-shadow: 0 6px 15px rgba(90, 188, 181, 0.3);
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.1em;
+    box-shadow: 0 4px 15px rgba(90, 188, 181, 0.3);
 }
 
-.cta-btn:hover {
-    background: var(--btn-hover);
-    transform: translateY(-3px);
+/* 次のステップ */
+.next-step-section {
+    text-align: center;
+    background: #222;
     color: #fff;
-    box-shadow: 0 8px 20px rgba(90, 188, 181, 0.4);
+    padding: 5rem 2rem;
+    border-radius: 12px;
 }
 
-.cta-btn-outline {
+.next-step-section h3 {
+    color: #fff;
+    border: none;
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+}
+
+.next-step-section p {
+    color: #ccc;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 3rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.btn-premium {
+    display: inline-block;
+    padding: 1.5rem 4rem;
+    background: var(--primary-color);
+    color: #fff;
+    font-size: 1.3rem;
+    font-weight: 700;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: all 0.3s;
+    box-shadow: 0 10px 25px rgba(90, 188, 181, 0.4);
+}
+
+.btn-premium:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(90, 188, 181, 0.6);
     background: #fff;
     color: var(--primary-color);
-    border: 2px solid var(--primary-color);
-    text-decoration: none;
-    padding: 1.1rem;
-    border-radius: 8px;
-    transition: background 0.2s, color 0.2s;
 }
 
-.cta-btn-outline:hover {
-    background: var(--primary-color);
-    color: #fff;
+@media print {
+    .report-section {
+        box-shadow: none;
+        border: 1px solid #eee;
+        margin-bottom: 20px;
+    }
 }
 
 /* ==================================================
-   PRIVACY & MODAL STYLES
+   SESSION LP STYLES (Quiet & Trustworthy)
 ================================================== */
-.privacy-note-top {
-    text-align: center;
-    font-size: 0.95rem;
+
+#session-lp-screen .report-section {
+    border: none;
+    box-shadow: none;
+    border-bottom: 1px solid #f0f0f0;
+    border-radius: 0;
+    padding: 4rem 1rem;
+}
+
+#session-lp-screen .report-main-h {
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    color: #111;
+}
+
+#session-lp-screen .report-text {
     color: #555;
-    margin-bottom: 1.5rem;
-    font-weight: 700;
+    font-weight: 300;
 }
 
-.privacy-policy-section {
+#session-lp-screen .btn-premium {
+    background: #222;
+    color: #fff;
+    border: 1px solid #222;
+    padding: 1.2rem 3rem;
+    font-size: 1.1rem;
+    border-radius: 4px;
+    box-shadow: none;
+}
+
+#session-lp-screen .btn-premium:hover {
     background: #fff;
-    padding: 2rem;
-    border-radius: 8px;
-    border: 1px solid var(--border-color);
-    margin: 3rem 0;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+    color: #222;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
 }
 
-.privacy-policy-section h3 {
+@media (max-width: 600px) {
+    #session-lp-screen .report-title-section h1 {
+        font-size: 1.6rem;
+    }
+
+    #session-lp-screen .report-section {
+        padding: 3rem 1rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .report-section {
+        padding: 2rem 1.5rem;
+    }
+
+    .report-title-section h1 {
+        font-size: 1.8rem;
+    }
+
+    .report-main-h {
+        font-size: 1.4rem;
+    }
+}
+
+#session-lp-screen .report-section {
+    border: none;
+    box-shadow: none;
+    border-bottom: 2px solid #f8f8f8;
+    border-radius: 0;
+    padding: 5rem 1.5rem;
+}
+
+.session-lp-container {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 0;
+    background: #fff;
+}
+
+.session-label {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    letter-spacing: 0.2em;
     margin-bottom: 1.5rem;
-    border-left: 3px solid var(--primary-color);
 }
 
-.privacy-policy-section ul {
-    list-style-type: disc;
-    margin-left: 1.5rem;
+.session-title {
+    font-size: 2.8rem;
+    color: #1a1a1a;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    margin-bottom: 2rem;
+    line-height: 1.2;
+}
+
+.session-subtitle {
+    font-size: 1.4rem;
     color: #444;
-    margin-bottom: 1.5rem;
+    line-height: 1.6;
+    font-weight: 400;
+    margin-top: 2rem;
+}
+
+.session-intro-text {
+    padding: 4rem 1.5rem;
+    text-align: center;
+    background: #fafafa;
+    border-radius: 12px;
+    margin: 2rem 0;
+}
+
+.session-intro-text p {
+    font-size: 1.15rem;
+    color: #555;
+    line-height: 2;
+    margin-bottom: 2.5rem;
+    font-weight: 300;
+}
+
+.session-intro-text p:last-child {
+    margin-bottom: 0;
+    font-weight: 500;
+    color: #333;
+}
+
+/* Step Style */
+.session-step {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 3.5rem;
+    align-items: flex-start;
+}
+
+.step-num {
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: #eee;
+    line-height: 1;
+    font-family: 'Georgia', serif;
+}
+
+.step-content h3 {
+    border: none;
+    padding: 0;
+    margin-bottom: 0.8rem;
+    font-size: 1.4rem;
+    color: #222;
+}
+
+.step-content p {
+    font-size: 1.05rem;
+    color: #666;
     line-height: 1.8;
 }
 
-.privacy-relax-text {
-    text-align: center;
-    font-weight: 700;
-    color: var(--primary-color);
-    font-size: 1.1rem;
-}
-
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.6);
-    z-index: 1000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    animation: fadeIn 0.3s ease;
-}
-
-.modal-content {
-    background: #fff;
-    padding: 2.5rem;
-    border-radius: 12px;
-    width: 90%;
-    max-width: 480px;
-    position: relative;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-}
-
-.modal-close-btn {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background: #f0f0f0;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-    color: #555;
+/* Target List */
+.session-target-list {
+    list-style: none;
     padding: 0;
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    transition: background 0.2s, color 0.2s;
 }
 
-.modal-close-btn:hover {
-    background: #e0e0e0;
-    color: #111;
-}
-
-.report-save-section {
-    background: transparent;
-    border-radius: 0;
-    padding: 2.5rem 1rem;
-    /* 縦の余白を減らす */
-    margin: 3rem 0;
-    max-width: 100%;
-    text-align: center;
-    box-shadow: none;
-    border-top: 1px solid #e5e5e5;
-    border-bottom: 1px solid #e5e5e5;
-}
-
-.report-save-section h3 {
-    border-left: none;
-    padding-left: 0;
-    font-size: 1.3rem;
-    margin-bottom: 0.5rem;
-    color: #111;
-    line-height: 1.7;
-    letter-spacing: 0.05em;
-    font-weight: 700;
-}
-
-.report-save-section p {
-    font-size: 1.05rem;
+.session-target-list li {
+    position: relative;
+    padding-left: 2rem;
+    margin-bottom: 1.2rem;
+    font-size: 1.1rem;
     color: #444;
-    line-height: 1.9;
-    margin-top: 0;
-    margin-bottom: 1.5rem;
 }
 
-.save-buttons {
+.session-target-list li::before {
+    content: '―';
+    position: absolute;
+    left: 0;
+    color: var(--primary-color);
+}
+
+/* Details Card */
+.session-details-card {
+    background: #fdfdfd !important;
+}
+
+.session-info-dl {
+    display: grid;
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.info-row {
     display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    max-width: 360px;
-    margin: 0 auto;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 1rem;
+}
+
+.info-row dt {
+    width: 100px;
+    font-weight: 700;
+    color: #888;
+    font-size: 0.9rem;
+}
+
+.info-row dd {
+    flex: 1;
+    font-size: 1.1rem;
+    color: #333;
+    font-weight: 500;
+}
+
+.info-row dd small {
+    font-size: 0.8rem;
+    margin-left: 0.2rem;
+}
+
+/* CTA Section */
+.session-cta-section {
+    background: #111 !important;
+    padding: 6rem 2rem !important;
+}
+
+.cta-message {
+    font-size: 2rem !important;
+    font-weight: 700 !important;
+    color: #fff !important;
+    margin-bottom: 1.5rem !important;
+}
+
+.cta-submessage {
+    font-size: 1rem !important;
+    color: #aaa !important;
+    margin-bottom: 4rem !important;
+    line-height: 1.8 !important;
+}
+
+.session-final-btn {
+    background: #fff !important;
+    color: #111 !important;
+    border: none !important;
+    padding: 1.5rem 2rem !important;
+    width: 100%;
+    max-width: 450px !important;
+    border-radius: 4px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+}
+
+.session-final-btn .btn-sub {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 400;
+    margin-top: 0.4rem;
+    opacity: 0.7;
+}
+
+.session-final-btn:hover {
+    background: var(--primary-color) !important;
+    color: #fff !important;
+}
+
+.session-footer-note {
+    font-size: 0.85rem !important;
+    color: #555 !important;
+    margin-top: 2rem !important;
+    font-weight: 300 !important;
+}
+
+@media (max-width: 600px) {
+    .session-title {
+        font-size: 2rem;
+    }
+
+    .session-subtitle {
+        font-size: 1.1rem;
+    }
+
+    .session-step {
+        gap: 1rem;
+    }
+
+    .step-num {
+        font-size: 1.8rem;
+    }
 }

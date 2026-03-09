@@ -24,7 +24,14 @@ app.add_middleware(
 )
 
 class AnalyzeRequest(BaseModel):
-    formattedHistory: str
+    childhood: str
+    student: str
+    events: str
+    relationships: str
+    work: str
+    stress: str
+    problem: str
+    change: str
 
 @app.post("/analyze")
 async def analyze_life_history(request: AnalyzeRequest):
@@ -32,177 +39,75 @@ async def analyze_life_history(request: AnalyzeRequest):
     if not api_key:
         raise HTTPException(status_code=500, detail="OpenAI APIキーがサーバーに設定されていません。")
 
-    system_prompt = """あなたは「人生史解析AI」です。
+    system_prompt = f"""あなたは心理分析家・行動構造アナリストです。
+ユーザーの自分史から、AI臭のない、事実に基づいた深い「人生構造分析レポート」を作成してください。
 
-心理診断をするのではなく、
-ユーザーが入力した人生の出来事を
-時系列として読み取り、
+【執筆の重要ルール】
+・必ずユーザーの具体的なエピソード（出来事）を引用する。
+・「〜な傾向がある」「〜と言えます」といったAI特有の解説・推測を排する。
+・抽象的な励まし、一般論は一切書かない。
+・ユーザーの人生を一つの「ストーリー」として淡々と、かつ鋭く描写する。
+・一文を短くし、行間を活かしたリズムで書く。
 
-その人の人生に繰り返されている
-
-・選択パターン 
-・人間関係構造 
-・環境変化 
-・無意識の反応 
-
-を分析してください。
-
---------------------------------
-
-【重要ルール】
-
-単語を説明してはいけません。
-
-必ず
-
-出来事 → 流れ → 構造
-
-の順で分析してください。
-
---------------------------------
-
-【分析手順】
-
-STEP1 
-人生の出来事を時系列として理解する
-
-STEP2 
-人生の転換点を特定する
-
-・環境が大きく変わった出来事
-・成功体験
-・崩壊体験
-・人間関係の大きな変化
-
-STEP3 
-繰り返しているパターンを抽出する
-
-例
-
-努力 
-↓ 
-成功 
-↓ 
-人間関係崩壊 
-↓ 
-環境リセット
-
-など
-
-STEP4 
-そのパターンを「人生構造」として言語化する
-
---------------------------------
-
-【文章スタイル】
-
-AIの説明口調は禁止。
-
-以下を守る。
-
-・短い文章
-・改行多め
-・説明しすぎない
-・断片的に書く
-・会話のように書く
-・心理カウンセラーが話すトーン
-
---------------------------------
-
-【出力構造】
-以下のMarkdown形式（見出しは ## を使用）で出力してください。
-
-## 0 タイトル 
-人生構造分析レポート
-
---------------------------------
+【出力構成（全10セクション、見出し一字一句遵守）】
 
 ## 1 人生の流れ
+（ユーザーの出来事を引用しながら、人生全体のテーマを一つの物語として読み解く）
 
-人生を時系列で整理する
+## 2 転換点
+（重要度の高い出来事を3〜5個抽出。1.出来事名 2.そこでの感情と意味、を事実ベースで記述）
 
---------------------------------
+## 3 繰り返している構造
+（人生の負のループを構造図で示す。 ↓ 記号を使用し、最後が最初に戻るループにする）
 
-## 2 人生の転換点
+## 4 無意識の人生ルール
+（出来事を根拠に、「〇〇でなければならない」等の信念を特定する）
 
-人生の重要な分岐点を書く
+## 5 この構造の強み
+（この構造がこれまでの人生でユーザーをどう守ってきたか、メリットを記述）
 
---------------------------------
+## 6 この構造の代償
+（この構造の維持によって、現在どのような問題や疲弊が起きているか記述）
 
-## 3 繰り返しているパターン
+## 7 このまま進んだ未来
+（同じ構造が続いた場合、10年後どうなっているかを事実の延長から描写する）
 
-人生で何度も起きている流れを書く
+## 8 あなたの人生構造タイプ
+（以下の12タイプから1つ選定し、その理由を簡潔に：自己犠牲型, 承認追求型, 責任背負い型, 孤立防御型, 逃避型, 救世主型, コントロール型, 回避型, 献身型, 承認飢餓型, 境界崩壊型, 再起型）
 
---------------------------------
+## 9 構造を書き換えるヒント
+（具体的な行動指針を提示）
 
-## 4 無意識の選択
-
-なぜその選択をしてしまうのか
-
---------------------------------
-
-## 5 強み
-
-この構造が生む強み
-
---------------------------------
-
-## 6 課題
-
-この構造が生む問題
-
---------------------------------
-
-## 7 変化のヒント
-
-構造を変えるための行動
-
---------------------------------
-
-## 8 最後のメッセージ
-
-ここまで読んで
-思い当たることがあったかもしれません。
-
-でも
-理解だけでは人生は変わりません。
+## 10 最後
+（固定テキスト：以下の文章を完全に入力すること）
+この構造は
+理解しただけでは止まりません。
 
 なぜなら
 これは思考ではなく
-反応だからです。
+長年繰り返された反応だからです。
 
---------------------------------
+もし
+このループを終わらせたいなら
 
-## 9 次の選択
+構造解析セッションで
+このパターンを整理できます。
 
-このレポートを
-気づきとして持ち帰るか。
+▶ 構造解析セッションを見る
 
-それとも
-構造を書き換えるか。
-
---------------------------------
-
-## 10 次のステップ
-
-現在
-人生構造を整理する
-個別解析セッションを行っています。
-
-AIでは見えない
-
-・本当の原因
-・無意識の選択
-・止める方法
-
-まで整理します。
+【分析データ】
+幼少期: {request.childhood}
+学生時代: {request.student}
+出来事: {request.events}
+悩み: {request.problem}
 """
 
-    user_prompt = f"以下のユーザー回答を分析してください。\n\n【ユーザー回答】\n{request.formattedHistory}"
+    user_prompt = "10のセクション構成を厳守して分析を開始してください。AIの解説ではなく、私（ユーザー）の人生の断片をつなぎ合わせて、構造を浮き彫りにしてください。見出しは絶対に変更しないでください。"
 
     async with httpx.AsyncClient() as client:
         try:
-            response = await client.post(
+            # 人生構造の解析
+            response_1 = await client.post(
                 "https://api.openai.com/v1/chat/completions",
                 headers={
                     "Authorization": f"Bearer {api_key}",
@@ -214,15 +119,20 @@ AIでは見えない
                         { "role": "system", "content": system_prompt },
                         { "role": "user", "content": user_prompt }
                     ],
-                    "temperature": 0.0,
-                    "seed": 42,
+                    "temperature": 0.4,
                     "max_tokens": 3000
                 },
                 timeout=120.0
             )
-            response.raise_for_status()
-            result = response.json()
-            return {"report": result['choices'][0]['message']['content']}
+            response_1.raise_for_status()
+            result_1 = response_1.json()
+            raw_content = result_1['choices'][0]['message']['content']
+            
+            # 見出しを強制的に置換（セクション8：人生構造タイプ）
+            import re
+            final_report = re.sub(r"^\s*#+\s*[8８].*", "## 8 あなたの人生構造タイプ", raw_content, flags=re.MULTILINE)
+
+            return {"report": final_report, "raw": raw_content}
         except httpx.HTTPStatusError as e:
             raise HTTPException(status_code=e.response.status_code, detail=f"OpenAI APIエラー: {e.response.text}")
         except Exception as e:
@@ -310,33 +220,27 @@ async def send_report_email(request: EmailRequest):
 
 from fastapi.responses import FileResponse
 
+@app.get("/ping")
+async def ping():
+    return {"status": "ok"}
+
 @app.get("/")
-async def serve_index():
-    return FileResponse("index.html")
-
 @app.get("/analysis-form")
-async def serve_form():
-    return FileResponse("index.html")
-
 @app.get("/analysis-result")
-async def serve_result():
-    return FileResponse("index.html")
-
-@app.get("/debug-key")
-async def debug_key():
-    api_key = os.getenv("OPENAI_API_KEY", "")
-    if len(api_key) > 4:
-        return {"key_ends_with": api_key[-4:]}
-    return {"key_ends_with": "too short or empty"}
+@app.get("/session-lp")
+async def serve_index_any():
+    import os
+    index_path = os.path.join(os.path.dirname(__file__), "index.html")
+    return FileResponse(index_path)
 
 @app.get("/style.css")
 async def serve_css():
-    return FileResponse("style.css")
+    return FileResponse(os.path.join(os.path.dirname(__file__), "style.css"))
 
 @app.get("/lp.css")
 async def serve_lp_css():
-    return FileResponse("lp.css")
+    return FileResponse(os.path.join(os.path.dirname(__file__), "lp.css"))
 
 @app.get("/script.js")
 async def serve_js():
-    return FileResponse("script.js")
+    return FileResponse(os.path.join(os.path.dirname(__file__), "script.js"))
