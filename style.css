@@ -708,7 +708,8 @@ input[type="text"]:focus {
     box-shadow: none;
     border-bottom: 1px solid #f0f0f0;
     border-radius: 0;
-    padding: 4rem 1rem;
+    padding: 1.25rem 1rem;
+    margin-bottom: 0px;
 }
 
 #session-lp-screen .report-main-h {
@@ -744,7 +745,7 @@ input[type="text"]:focus {
     }
 
     #session-lp-screen .report-section {
-        padding: 3rem 1rem;
+        padding: 1rem 1rem;
     }
 }
 
@@ -762,13 +763,7 @@ input[type="text"]:focus {
     }
 }
 
-#session-lp-screen .report-section {
-    border: none;
-    box-shadow: none;
-    border-bottom: 2px solid #f8f8f8;
-    border-radius: 0;
-    padding: 5rem 1.5rem;
-}
+
 
 .session-lp-container {
     max-width: 700px;
@@ -782,39 +777,49 @@ input[type="text"]:focus {
     font-weight: 700;
     color: var(--primary-color);
     letter-spacing: 0.2em;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
+    /* 削減: 1.5rem -> 1rem */
 }
 
 .session-title {
-    font-size: 2.8rem;
+    font-size: 2.3rem;
+    /* 縮小: 2.8rem -> 2.3rem */
     color: #1a1a1a;
     font-weight: 700;
     letter-spacing: 0.1em;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
+    /* 削減: 2rem -> 1rem */
     line-height: 1.2;
 }
 
 .session-subtitle {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
+    /* 縮小: 1.4rem -> 1.2rem */
     color: #444;
     line-height: 1.6;
     font-weight: 400;
-    margin-top: 2rem;
+    margin-top: 1rem;
+    /* 削減: 2rem -> 1rem */
 }
 
 .session-intro-text {
-    padding: 4rem 1.5rem;
+    padding: 2.5rem 1.5rem;
+    /* 削減: 4rem -> 2.5rem */
     text-align: center;
     background: #fafafa;
     border-radius: 12px;
-    margin: 2rem 0;
+    margin: 1.5rem 0;
+    /* 削減: 2rem -> 1.5rem */
 }
 
 .session-intro-text p {
-    font-size: 1.15rem;
+    font-size: 1.05rem;
+    /* 縮小: 1.15rem -> 1.05rem */
     color: #555;
-    line-height: 2;
-    margin-bottom: 2.5rem;
+    line-height: 1.8;
+    /* 削減: 2 -> 1.8 */
+    margin-bottom: 1.5rem;
+    /* 削減: 2.5rem -> 1.5rem */
     font-weight: 300;
 }
 
@@ -827,8 +832,10 @@ input[type="text"]:focus {
 /* Step Style */
 .session-step {
     display: flex;
-    gap: 2rem;
-    margin-bottom: 3.5rem;
+    gap: 1.5rem;
+    /* 削減: 2rem -> 1.5rem */
+    margin-bottom: 2rem;
+    /* 削減: 3.5rem -> 2rem */
     align-items: flex-start;
 }
 
@@ -914,7 +921,8 @@ input[type="text"]:focus {
 /* CTA Section */
 .session-cta-section {
     background: #111 !important;
-    padding: 6rem 2rem !important;
+    padding: 3rem 1.5rem !important;
+    /* 削減: 6rem -> 3rem */
 }
 
 .cta-message {
