@@ -693,28 +693,32 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
         }
 
-        // 10. 最後 & 下部ボタン
-        if (sections["10"]) {
+        // 10 & 11. 最後のメッセージ
+        const lastSection = sections["11"] || sections["10"];
+        if (lastSection) {
             html += `
-                <div class="next-step-section">
+                <div class="next-step-section" style="margin-top: 3rem;">
                     <div class="report-section-header" style="color: #888; border-color: #444; justify-content: center;">MESSAGE</div>
-                    <p>${format(sections["10"].content.replace("▶ 構造解析セッションを見る", ""))}</p>
+                    <p style="text-align: center; color: #aaa; margin-bottom: 2rem;">${format(lastSection.content.replace("▶ 構造解析セッションを見る", ""))}</p>
                     <button id="nav-session-lp-btn" class="btn-premium">▶ 構造解析セッションを見る</button>
-                </div>
-
-                <div class="report-section no-print" style="margin-top: 4rem; text-align: center; border: 1px dashed #ccc;">
-                    <h3 style="border:none; padding:0; margin-bottom: 1.5rem;">このレポートを保存する</h3>
-                    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-                        <button id="open-email-modal-btn" class="primary-btn" style="max-width: 250px; font-size: 0.9rem;">✉️ メールで受け取る</button>
-                        <button id="save-pdf-btn-report" class="secondary-btn" style="max-width: 250px; padding: 0.8rem; font-size: 0.9rem;">PDFで保存 / 印刷</button>
-                    </div>
-                    <p style="font-size: 0.8rem; color: #888; margin-top: 1.5rem;">
-                        ※データ保護のため、ブラウザを閉じると消去される場合があります。<br>大切な解析結果は必ず保存してください。
-                    </p>
-                    <button id="clear-data-btn-report" class="danger-btn" style="margin-top: 2rem; padding: 0.5rem 1rem; font-size: 0.8rem; opacity: 0.6;">全ての入力データを消去して終了</button>
                 </div>
             `;
         }
+
+        // --- レポート保存ボタン（常に表示） ---
+        html += `
+            <div class="report-section no-print" style="margin-top: 4rem; text-align: center; border: 1px dashed #ccc;">
+                <h3 style="border:none; padding:0; margin-bottom: 1.5rem;">このレポートを保存する</h3>
+                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                    <button id="open-email-modal-btn" class="primary-btn" style="max-width: 250px; font-size: 0.9rem;">✉️ メールで受け取る</button>
+                    <button id="save-pdf-btn-report" class="secondary-btn" style="max-width: 250px; padding: 0.8rem; font-size: 0.9rem;">PDFで保存 / 印刷</button>
+                </div>
+                <p style="font-size: 0.8rem; color: #888; margin-top: 1.5rem;">
+                    ※データ保護のため、ブラウザを閉じると消去される場合があります。<br>大切な解析結果は必ず保存してください。
+                </p>
+                <button id="clear-data-btn-report" class="danger-btn" style="margin-top: 2rem; padding: 0.5rem 1rem; font-size: 0.8rem; opacity: 0.6;">全ての入力データを消去して終了</button>
+            </div>
+        `;
 
         reportContent.innerHTML = html;
 
@@ -723,7 +727,10 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('nav-input')?.addEventListener('click', () => { switchScreen('input'); window.scrollTo(0, 0); });
         document.getElementById('nav-session-lp-btn')?.addEventListener('click', () => { window.location.hash = 'session-lp'; });
         document.getElementById('save-pdf-btn-report')?.addEventListener('click', () => window.print());
-        document.getElementById('open-email-modal-btn')?.addEventListener('click', () => { emailModal.style.display = 'flex'; });
+        document.getElementById('open-email-modal-btn')?.addEventListener('click', () => {
+            const modal = document.getElementById('email-modal');
+            if (modal) modal.style.display = 'flex';
+        });
         document.getElementById('clear-data-btn-report')?.addEventListener('click', () => {
             if (confirm('ブラウザに保存されている詳細な人生データを完全に消去します。よろしいですか？')) {
                 localStorage.removeItem('yayoi_form_data');
